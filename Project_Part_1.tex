@@ -1,0 +1,789 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={ANA515 Project Part 1 - R Script},
+  pdfauthor={Anushree Das},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{ANA515 Project Part 1 - R Script}
+\author{Anushree Das}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Load necessary libraries}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(lubridate)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{1. EXTRACT}\label{extract}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load dataset from csv}
+\NormalTok{users\_csv  }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"credit\_card\_transactions/sd254\_users.csv"}\NormalTok{)}
+\NormalTok{cards\_csv }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"credit\_card\_transactions/sd254\_cards.csv"}\NormalTok{)}
+\NormalTok{transactions\_csv }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"credit\_card\_transactions/credit\_card\_transactions{-}ibm\_v2.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{2. TRANFORM}\label{tranform}
+
+\subsection{2.1 Modify users table}\label{modify-users-table}
+
+\subsubsection{2.1.a Generate UserId column for users
+table}\label{a-generate-userid-column-for-users-table}
+
+\subsubsection{2.1.b Rename column names}\label{b-rename-column-names}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{users }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{UserId =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(users\_csv), }
+                        \AttributeTok{FullName =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Person, }
+                        \AttributeTok{CurrentAge =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Current.Age,}
+                        \AttributeTok{RetirementAge =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Retirement.Age,}
+                        \AttributeTok{BirthYear =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Birth.Year, }
+                        \AttributeTok{BirthMonth =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Birth.Month, }
+                        \AttributeTok{Gender=}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Gender, }
+                        \AttributeTok{Address1 =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Address, }
+                        \AttributeTok{Address2 =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Apartment, }
+                        \AttributeTok{City =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{City, }
+                        \AttributeTok{State =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{State, }
+                        \AttributeTok{Zipcode =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Zipcode, }
+                        \AttributeTok{Latitude =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Latitude, }
+                        \AttributeTok{Longitude =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Longitude, }
+                        \AttributeTok{PerCapitaIncomeZipcode =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Per.Capita.Income...Zipcode, }
+                        \AttributeTok{YearlyIncome =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Yearly.Income...Person, }
+                        \AttributeTok{TotalDebt =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Total.Debt, }
+                        \AttributeTok{FICOScore =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{FICO.Score, }
+                        \AttributeTok{NumCreditCards =}\NormalTok{ users\_csv}\SpecialCharTok{$}\NormalTok{Num.Credit.Cards}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(users, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   UserId       FullName CurrentAge RetirementAge BirthYear BirthMonth Gender
+## 1      1 Hazel Robinson         53            66      1966         11 Female
+## 2      2     Sasha Sadr         53            68      1966         12 Female
+## 3      3     Saanvi Lee         81            67      1938         11 Female
+##                 Address1 Address2        City State Zipcode Latitude Longitude
+## 1          462 Rose Lane       NA    La Verne    CA   91750    34.15   -117.76
+## 2 3606 Federal Boulevard       NA Little Neck    NY   11363    40.76    -73.74
+## 3        766 Third Drive       NA West Covina    CA   91792    34.02   -117.89
+##   PerCapitaIncomeZipcode YearlyIncome TotalDebt FICOScore NumCreditCards
+## 1                 $29278       $59696   $127613       787              5
+## 2                 $37891       $77254   $191349       701              5
+## 3                 $22681       $33483      $196       698              5
+\end{verbatim}
+
+\subsubsection{2.1.c Convert Gender to categorical data
+type}\label{c-convert-gender-to-categorical-data-type}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{users}\SpecialCharTok{$}\NormalTok{Gender }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(users}\SpecialCharTok{$}\NormalTok{Gender)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.1.d Convert columns - Address2, Zipcode to Text data
+type}\label{d-convert-columns---address2-zipcode-to-text-data-type}
+
+Zipcode and Address2 should be converted to Text data type because they
+are not used for quantitative statistics
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{users}\SpecialCharTok{$}\NormalTok{Address2 }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(users}\SpecialCharTok{$}\NormalTok{Address2)}
+\NormalTok{users}\SpecialCharTok{$}\NormalTok{Zipcode }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(users}\SpecialCharTok{$}\NormalTok{Zipcode)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.1.e Convert columns - PerCapitaIncomeZipcode,
+YearlyIncome, TotalDebt to
+numeric}\label{e-convert-columns---percapitaincomezipcode-yearlyincome-totaldebt-to-numeric}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Remove $ character from the column values and convert to numeric data type}
+\NormalTok{users}\SpecialCharTok{$}\NormalTok{PerCapitaIncomeZipcode }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{sub}\NormalTok{(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, users}\SpecialCharTok{$}\NormalTok{PerCapitaIncomeZipcode))}
+\NormalTok{users}\SpecialCharTok{$}\NormalTok{YearlyIncome }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{sub}\NormalTok{(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, users}\SpecialCharTok{$}\NormalTok{YearlyIncome))}
+\NormalTok{users}\SpecialCharTok{$}\NormalTok{TotalDebt }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{sub}\NormalTok{(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, users}\SpecialCharTok{$}\NormalTok{TotalDebt))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.2 Modify cards tables}\label{modify-cards-tables}
+
+\subsubsection{2.2.a Remove duplicates}\label{a-remove-duplicates}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards\_csv }\OtherTok{\textless{}{-}}\NormalTok{ cards\_csv }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.2.b Combine user id and card index to generate
+CardId}\label{b-combine-user-id-and-card-index-to-generate-cardid}
+
+\subsubsection{2.2.c Rename column names}\label{c-rename-column-names}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{CardId =} \FunctionTok{paste}\NormalTok{(cards\_csv}\SpecialCharTok{$}\NormalTok{User, cards\_csv}\SpecialCharTok{$}\NormalTok{CARD.INDEX, }\AttributeTok{sep =} \StringTok{"$"}\NormalTok{),}
+                        \AttributeTok{CardBrand =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Card.Brand,}
+                        \AttributeTok{CardType =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Card.Type,}
+                        \AttributeTok{CardNumber =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Card.Number,}
+                        \AttributeTok{Expires =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Expires,}
+                        \AttributeTok{CVV =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{CVV, }
+                        \AttributeTok{HasChip =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Has.Chip, }
+                        \AttributeTok{CardsIssued =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Cards.Issued, }
+                        \AttributeTok{CreditLimit =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Credit.Limit,}
+                        \AttributeTok{AcctOpenDate =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Acct.Open.Date,}
+                        \AttributeTok{YearPINLastChanged =}\NormalTok{ cards\_csv}\SpecialCharTok{$}\NormalTok{Year.PIN.last.Changed}
+\NormalTok{)}
+\FunctionTok{head}\NormalTok{(cards, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   CardId CardBrand CardType   CardNumber Expires CVV HasChip CardsIssued
+## 1    0$0      Visa    Debit 4.344677e+15 12/2022 623     YES           2
+## 2    0$1      Visa    Debit 4.956966e+15 12/2020 393     YES           2
+## 3    0$2      Visa    Debit 4.582313e+15 02/2024 719     YES           2
+##   CreditLimit AcctOpenDate YearPINLastChanged
+## 1      $24295      09/2002               2008
+## 2      $21968      04/2014               2014
+## 3      $46414      07/2003               2004
+\end{verbatim}
+
+\subsubsection{2.2.d Convert columns - CardBrand, CardType, HasChip to
+categorical data
+type}\label{d-convert-columns---cardbrand-cardtype-haschip-to-categorical-data-type}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{CardBrand }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{CardBrand)}
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{CardType }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{CardType)}
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{HasChip }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{HasChip)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.2.e Convert columns - Expires, AcctOpenDate to Date
+data
+type}\label{e-convert-columns---expires-acctopendate-to-date-data-type}
+
+The Date Format for Expires and AcctOpenDate contains only Month and
+Year, but R needs a value for Day as well. The Expires date will be set
+to the last day of the month and AcctOpenDate to the first day of the
+month for this project.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{Expires }\OtherTok{\textless{}{-}} \FunctionTok{my}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{Expires)}
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{Expires }\OtherTok{\textless{}{-}} \FunctionTok{ceiling\_date}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{Expires, }\StringTok{"month"}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{days}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{AcctOpenDate }\OtherTok{\textless{}{-}} \FunctionTok{my}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{AcctOpenDate)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.2.f Convert columns - CardNumber, CVV to Text data
+type}\label{f-convert-columns---cardnumber-cvv-to-text-data-type}
+
+CardNumber and CVV not used for quantitative statistics, therefore they
+are being converted to Text
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{CardNumber }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{CardNumber)}
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{CVV }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(cards}\SpecialCharTok{$}\NormalTok{CVV)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.2.g Convert column CreditLimit to
+numeric}\label{g-convert-column-creditlimit-to-numeric}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards}\SpecialCharTok{$}\NormalTok{CreditLimit }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{sub}\NormalTok{(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, cards}\SpecialCharTok{$}\NormalTok{CreditLimit))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.3 Create table for
+merchants}\label{create-table-for-merchants}
+
+\subsubsection{2.3.a Extract Merchant related column from the
+Transactions
+table}\label{a-extract-merchant-related-column-from-the-transactions-table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{merchants\_temp }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{MerchantName =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Merchant.Name,}
+                            \AttributeTok{MerchantCity =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Merchant.City,}
+                            \AttributeTok{MerchantState =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Merchant.State,}
+                            \AttributeTok{MerchantZIP =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Zip,}
+                            \AttributeTok{MerchantCategoryCode =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{MCC}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.3.b Remove redundant data from the Merchants
+table}\label{b-remove-redundant-data-from-the-merchants-table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{nrow}\NormalTok{(merchants\_temp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 24386900
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(merchants\_temp}\SpecialCharTok{$}\NormalTok{MerchantName))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100343
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{merchants\_temp }\OtherTok{\textless{}{-}}\NormalTok{ merchants\_temp }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{(MerchantName, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{nrow}\NormalTok{(merchants\_temp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100343
+\end{verbatim}
+
+\subsubsection{2.3.c Generate and add MerchantId
+column}\label{c-generate-and-add-merchantid-column}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{merchants }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{MerchantId =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(merchants\_temp),}
+                            \AttributeTok{MerchantName =}\NormalTok{ merchants\_temp}\SpecialCharTok{$}\NormalTok{MerchantName,}
+                            \AttributeTok{MerchantCity =}\NormalTok{ merchants\_temp}\SpecialCharTok{$}\NormalTok{MerchantCity,}
+                            \AttributeTok{MerchantState =}\NormalTok{ merchants\_temp}\SpecialCharTok{$}\NormalTok{MerchantState,}
+                            \AttributeTok{MerchantZIP =}\NormalTok{ merchants\_temp}\SpecialCharTok{$}\NormalTok{MerchantZIP,}
+                            \AttributeTok{MerchantCategoryCode =}\NormalTok{ merchants\_temp}\SpecialCharTok{$}\NormalTok{MerchantCategoryCode}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(merchants, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   MerchantId  MerchantName  MerchantCity MerchantState MerchantZIP
+## 1          1  3.527213e+18      La Verne            CA       91750
+## 2          2 -7.276121e+17 Monterey Park            CA       91754
+## 3          3  3.414527e+18 Monterey Park            CA       91754
+##   MerchantCategoryCode
+## 1                 5300
+## 2                 5411
+## 3                 5651
+\end{verbatim}
+
+\subsubsection{2.3.d Convert columns - MerchantName, MerchantZIP to Text
+data
+type}\label{d-convert-columns---merchantname-merchantzip-to-text-data-type}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{merchants}\SpecialCharTok{$}\NormalTok{MerchantName }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(merchants}\SpecialCharTok{$}\NormalTok{MerchantName)}
+\NormalTok{merchants}\SpecialCharTok{$}\NormalTok{MerchantZIP }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(merchants}\SpecialCharTok{$}\NormalTok{MerchantZIP)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.3.e Convert column MerchantCategoryCode to Categorical
+data
+type}\label{e-convert-column-merchantcategorycode-to-categorical-data-type}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{merchants}\SpecialCharTok{$}\NormalTok{MerchantCategoryCode }\OtherTok{=} \FunctionTok{factor}\NormalTok{(merchants}\SpecialCharTok{$}\NormalTok{MerchantCategoryCode)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.4 Create table for date}\label{create-table-for-date}
+
+\subsubsection{2.4.a Transform Time column to categorical (morning,
+afternoon, evening,
+night)}\label{a-transform-time-column-to-categorical-morning-afternoon-evening-night}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convert column to Time data type}
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{Time }\OtherTok{\textless{}{-}} \FunctionTok{as.POSIXct}\NormalTok{(}\FunctionTok{strptime}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{Time,}\StringTok{"\%H:\%M"}\NormalTok{),}\StringTok{"UTC"}\NormalTok{)}
+
+\CommentTok{\# Define time range for each category}
+\NormalTok{x}\OtherTok{=}\FunctionTok{as.POSIXct}\NormalTok{(}\FunctionTok{strptime}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"050000"}\NormalTok{,}\StringTok{"105959"}\NormalTok{,}\StringTok{"110000"}\NormalTok{,}\StringTok{"155959"}\NormalTok{,}\StringTok{"160000"}\NormalTok{,}
+                        \StringTok{"185959"}\NormalTok{),}\StringTok{"\%H\%M\%S"}\NormalTok{),}\StringTok{"UTC"}\NormalTok{)}
+
+\CommentTok{\# Transform Time column }
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{Time }\OtherTok{=} \FunctionTok{case\_when}\NormalTok{(}
+  \FunctionTok{between}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{Time,x[}\DecValTok{1}\NormalTok{],x[}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{\textasciitilde{}}\StringTok{"morning"}\NormalTok{,}
+  \FunctionTok{between}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{Time,x[}\DecValTok{3}\NormalTok{],x[}\DecValTok{4}\NormalTok{]) }\SpecialCharTok{\textasciitilde{}}\StringTok{"afternoon"}\NormalTok{,}
+  \FunctionTok{between}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{Time,x[}\DecValTok{5}\NormalTok{],x[}\DecValTok{6}\NormalTok{]) }\SpecialCharTok{\textasciitilde{}}\StringTok{"evening"}\NormalTok{,}
+  \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\StringTok{"night"}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{Time)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "morning"   "morning"   "morning"   "evening"   "morning"   "afternoon"
+\end{verbatim}
+
+\subsubsection{2.4.b Extract Date related column from the Transactions
+table}\label{b-extract-date-related-column-from-the-transactions-table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{date\_temp }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{DateYear =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Year,}
+                        \AttributeTok{DateMonth =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Month,}
+                        \AttributeTok{DateDay =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Day,}
+                        \AttributeTok{Time =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Time}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.4.c Remove redundant data from the Date
+table}\label{c-remove-redundant-data-from-the-date-table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{date\_temp }\OtherTok{\textless{}{-}}\NormalTok{ date\_temp }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.4.d Generate and add DateId
+column}\label{d-generate-and-add-dateid-column}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{date }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{DateId =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(date\_temp),}
+                        \AttributeTok{DateYear =}\NormalTok{ date\_temp}\SpecialCharTok{$}\NormalTok{DateYear,}
+                        \AttributeTok{DateMonth =}\NormalTok{ date\_temp}\SpecialCharTok{$}\NormalTok{DateMonth,}
+                        \AttributeTok{DateDay =}\NormalTok{ date\_temp}\SpecialCharTok{$}\NormalTok{DateDay,}
+                        \AttributeTok{Time =}\NormalTok{ date\_temp}\SpecialCharTok{$}\NormalTok{Time}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.4.e Convert column Time to Categorical data
+type}\label{e-convert-column-time-to-categorical-data-type}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{date}\SpecialCharTok{$}\NormalTok{Time }\OtherTok{=} \FunctionTok{factor}\NormalTok{(date}\SpecialCharTok{$}\NormalTok{Time)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.5 Fact table -
+transactions}\label{fact-table---transactions}
+
+\subsubsection{2.4.a Replace existing merchant columns with single
+merchant
+id}\label{a-replace-existing-merchant-columns-with-single-merchant-id}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Uses Merchant Name (unique column in merchants table) }
+\CommentTok{\# to assign Merchant Id values in Transactions table}
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{MerchantId }\OtherTok{\textless{}{-}}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Merchant.Name}
+\NormalTok{conditions }\OtherTok{\textless{}{-}}\NormalTok{ merchants}\SpecialCharTok{$}\NormalTok{MerchantName}
+\NormalTok{replacement\_values }\OtherTok{\textless{}{-}}\NormalTok{ merchants}\SpecialCharTok{$}\NormalTok{MerchantId}
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{MerchantId }\OtherTok{\textless{}{-}} \FunctionTok{replace}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{MerchantId, }
+\NormalTok{                                   transactions\_csv}\SpecialCharTok{$}\NormalTok{MerchantId }\SpecialCharTok{\%in\%}\NormalTok{ conditions, }
+\NormalTok{                                   replacement\_values)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.4.b Replace existing date columns with single date
+id}\label{b-replace-existing-date-columns-with-single-date-id}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Combine all columns in Dates table}
+\NormalTok{temp\_dates }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{DateId =}\NormalTok{ date}\SpecialCharTok{$}\NormalTok{DateId,}
+                        \AttributeTok{Condition =} \FunctionTok{paste}\NormalTok{(date}\SpecialCharTok{$}\NormalTok{DateYear,}
+\NormalTok{                                          date}\SpecialCharTok{$}\NormalTok{DateMonth,}
+\NormalTok{                                          date}\SpecialCharTok{$}\NormalTok{DateDay,}
+\NormalTok{                                          date}\SpecialCharTok{$}\NormalTok{Time)}
+\NormalTok{)}
+
+\CommentTok{\# Combine all columns that were added to Date table from Transaction table }
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{Condition }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{Year,}
+\NormalTok{                                transactions\_csv}\SpecialCharTok{$}\NormalTok{Month,}
+\NormalTok{                                transactions\_csv}\SpecialCharTok{$}\NormalTok{Day,}
+\NormalTok{                                transactions\_csv}\SpecialCharTok{$}\NormalTok{Time)}
+
+\CommentTok{\# Add DateId column with temporary values}
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{DateId }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(transactions\_csv)}
+
+\CommentTok{\# Replace DateId based on the combined Date columns in both tables}
+\NormalTok{transactions\_csv}\SpecialCharTok{$}\NormalTok{DateId }\OtherTok{\textless{}{-}} \FunctionTok{replace}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{DateID, }
+\NormalTok{                             transactions\_csv}\SpecialCharTok{$}\NormalTok{Condition }\SpecialCharTok{\%in\%}\NormalTok{ temp\_dates}\SpecialCharTok{$}\NormalTok{Condition, }
+\NormalTok{                             temp\_dates}\SpecialCharTok{$}\NormalTok{DateId)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.4.c Remove duplicates}\label{c-remove-duplicates}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transactions\_csv }\OtherTok{\textless{}{-}}\NormalTok{ transactions\_csv }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.4.d Combine user id and card index to generate CardId
+column}\label{d-combine-user-id-and-card-index-to-generate-cardid-column}
+
+\subsubsection{2.4.e Rename column names}\label{e-rename-column-names}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transactions }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{TransactionId =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(transactions\_csv),}
+                              \AttributeTok{CardId =} \FunctionTok{paste}\NormalTok{(transactions\_csv}\SpecialCharTok{$}\NormalTok{User, }
+\NormalTok{                                             transactions\_csv}\SpecialCharTok{$}\NormalTok{Card, }\AttributeTok{sep =} \StringTok{"$"}\NormalTok{),}
+                              \AttributeTok{UserId =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{User,}
+                              \AttributeTok{DateId =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{DateId,}
+                              \AttributeTok{MerchantId =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{MerchantId,}
+                              \AttributeTok{Amount =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Amount, }
+                              \AttributeTok{UseChip =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Use.Chip, }
+                              \AttributeTok{Errors =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Errors., }
+                              \AttributeTok{IsFraud =}\NormalTok{ transactions\_csv}\SpecialCharTok{$}\NormalTok{Is.Fraud}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(transactions, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   TransactionId CardId UserId DateId MerchantId  Amount           UseChip
+## 1             1    0$0      0      1          1 $134.09 Swipe Transaction
+## 2             2    0$0      0      2          2  $38.48 Swipe Transaction
+## 3             3    0$0      0      3          3 $120.34 Swipe Transaction
+##   Errors IsFraud
+## 1             No
+## 2             No
+## 3             No
+\end{verbatim}
+
+\subsubsection{2.4.f Covert columns - UseChip, IsFraud to categorical
+data
+type}\label{f-covert-columns---usechip-isfraud-to-categorical-data-type}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transactions}\SpecialCharTok{$}\NormalTok{UseChip }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(transactions}\SpecialCharTok{$}\NormalTok{UseChip)}
+\NormalTok{transactions}\SpecialCharTok{$}\NormalTok{IsFraud }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(transactions}\SpecialCharTok{$}\NormalTok{IsFraud)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2.2.g Convert column Amount to
+numeric}\label{g-convert-column-amount-to-numeric}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transactions}\SpecialCharTok{$}\NormalTok{Amount }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{sub}\NormalTok{(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, transactions}\SpecialCharTok{$}\NormalTok{Amount))}
+\end{Highlighting}
+\end{Shaded}
+
+\section{3. LOAD}\label{load}
+
+\subsection{Dimension table -
+users\_dim}\label{dimension-table---users_dim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{users\_dim }\OtherTok{\textless{}{-}}\NormalTok{ users }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(UserId, FullName, CurrentAge, RetirementAge, }
+\NormalTok{                              BirthYear, BirthMonth, Gender, Address1, Address2, }
+\NormalTok{                              City, State, Zipcode, Latitude, Longitude, }
+\NormalTok{                              PerCapitaIncomeZipcode, YearlyIncome, TotalDebt, }
+\NormalTok{                              FICOScore, NumCreditCards) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(users\_dim)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      UserId         FullName           CurrentAge     RetirementAge  
+##  Min.   :   1.0   Length:2000        Min.   : 18.00   Min.   :50.00  
+##  1st Qu.: 500.8   Class :character   1st Qu.: 30.00   1st Qu.:65.00  
+##  Median :1000.5   Mode  :character   Median : 44.00   Median :66.00  
+##  Mean   :1000.5                      Mean   : 45.39   Mean   :66.24  
+##  3rd Qu.:1500.2                      3rd Qu.: 58.00   3rd Qu.:68.00  
+##  Max.   :2000.0                      Max.   :101.00   Max.   :79.00  
+##    BirthYear      BirthMonth        Gender       Address1        
+##  Min.   :1918   Min.   : 1.000   Female:1016   Length:2000       
+##  1st Qu.:1961   1st Qu.: 3.000   Male  : 984   Class :character  
+##  Median :1975   Median : 7.000                 Mode  :character  
+##  Mean   :1974   Mean   : 6.439                                   
+##  3rd Qu.:1989   3rd Qu.:10.000                                   
+##  Max.   :2002   Max.   :12.000                                   
+##    Address2             City              State             Zipcode         
+##  Length:2000        Length:2000        Length:2000        Length:2000       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##     Latitude       Longitude       PerCapitaIncomeZipcode  YearlyIncome   
+##  Min.   :20.88   Min.   :-159.41   Min.   :     0         Min.   :     1  
+##  1st Qu.:33.84   1st Qu.: -97.39   1st Qu.: 16824         1st Qu.: 32818  
+##  Median :38.25   Median : -86.44   Median : 20581         Median : 40744  
+##  Mean   :37.39   Mean   : -91.55   Mean   : 23142         Mean   : 45716  
+##  3rd Qu.:41.20   3rd Qu.: -80.13   3rd Qu.: 26286         3rd Qu.: 52698  
+##  Max.   :61.20   Max.   : -68.67   Max.   :163145         Max.   :307018  
+##    TotalDebt        FICOScore     NumCreditCards 
+##  Min.   :     0   Min.   :480.0   Min.   :1.000  
+##  1st Qu.: 23987   1st Qu.:681.0   1st Qu.:2.000  
+##  Median : 58251   Median :711.5   Median :3.000  
+##  Mean   : 63710   Mean   :709.7   Mean   :3.073  
+##  3rd Qu.: 89070   3rd Qu.:753.0   3rd Qu.:4.000  
+##  Max.   :516263   Max.   :850.0   Max.   :9.000
+\end{verbatim}
+
+\subsection{Dimension table -
+cards\_dim}\label{dimension-table---cards_dim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cards\_dim }\OtherTok{\textless{}{-}}\NormalTok{ cards }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(CardId, CardBrand, CardType, CardNumber, Expires, }
+\NormalTok{                              CVV, HasChip, CardsIssued, CreditLimit, }
+\NormalTok{                              AcctOpenDate, YearPINLastChanged) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(cards)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     CardId               CardBrand               CardType     CardNumber       
+##  Length:6146        Amex      : 402   Credit         :2057   Length:6146       
+##  Class :character   Discover  : 209   Debit          :3511   Class :character  
+##  Mode  :character   Mastercard:3209   Debit (Prepaid): 578   Mode  :character  
+##                     Visa      :2326                                            
+##                                                                                
+##                                                                                
+##     Expires               CVV            HasChip     CardsIssued   
+##  Min.   :1997-07-31   Length:6146        NO : 646   Min.   :1.000  
+##  1st Qu.:2020-02-29   Class :character   YES:5500   1st Qu.:1.000  
+##  Median :2021-09-30   Mode  :character              Median :1.000  
+##  Mean   :2020-11-06                                 Mean   :1.503  
+##  3rd Qu.:2023-05-31                                 3rd Qu.:2.000  
+##  Max.   :2024-12-31                                 Max.   :3.000  
+##   CreditLimit      AcctOpenDate        YearPINLastChanged
+##  Min.   :     0   Min.   :1991-01-01   Min.   :2002      
+##  1st Qu.:  7043   1st Qu.:2006-10-01   1st Qu.:2010      
+##  Median : 12592   Median :2010-02-15   Median :2013      
+##  Mean   : 14347   Mean   :2011-01-15   Mean   :2013      
+##  3rd Qu.: 19156   3rd Qu.:2016-05-01   3rd Qu.:2017      
+##  Max.   :151223   Max.   :2020-02-01   Max.   :2020
+\end{verbatim}
+
+\subsection{Dimension table -
+cards\_dim}\label{dimension-table---cards_dim-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{merchants\_dim }\OtherTok{\textless{}{-}}\NormalTok{ merchants }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(MerchantId, MerchantName, MerchantCity, }
+\NormalTok{                                      MerchantState, MerchantZIP, }
+\NormalTok{                                      MerchantCategoryCode) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(merchants\_dim)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    MerchantId     MerchantName       MerchantCity       MerchantState     
+##  Min.   :     1   Length:100343      Length:100343      Length:100343     
+##  1st Qu.: 25086   Class :character   Class :character   Class :character  
+##  Median : 50172   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   : 50172                                                           
+##  3rd Qu.: 75258                                                           
+##  Max.   :100343                                                           
+##                                                                           
+##  MerchantZIP        MerchantCategoryCode
+##  Length:100343      5411   :10051       
+##  Class :character   5812   : 7910       
+##  Mode  :character   5912   : 6150       
+##                     5813   : 5134       
+##                     5921   : 4701       
+##                     4900   : 4695       
+##                     (Other):61702
+\end{verbatim}
+
+\subsection{Dimension table -
+date\_dim}\label{dimension-table---date_dim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{date\_dim }\OtherTok{\textless{}{-}}\NormalTok{ date }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(DateId, DateYear, DateMonth, }
+\NormalTok{                            DateDay, Time) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(date\_dim)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      DateId         DateYear      DateMonth         DateDay     
+##  Min.   :    1   Min.   :1991   Min.   : 1.000   Min.   : 1.00  
+##  1st Qu.:10366   1st Qu.:1998   1st Qu.: 3.000   1st Qu.: 8.00  
+##  Median :20731   Median :2005   Median : 7.000   Median :16.00  
+##  Mean   :20731   Mean   :2005   Mean   : 6.514   Mean   :15.73  
+##  3rd Qu.:31096   3rd Qu.:2013   3rd Qu.:10.000   3rd Qu.:23.00  
+##  Max.   :41461   Max.   :2020   Max.   :12.000   Max.   :31.00  
+##         Time      
+##  afternoon:10554  
+##  evening  :10374  
+##  morning  :10431  
+##  night    :10102  
+##                   
+## 
+\end{verbatim}
+
+\subsection{Fact table -
+transactions\_fact}\label{fact-table---transactions_fact}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transactions\_fact }\OtherTok{\textless{}{-}}\NormalTok{ transactions }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(TransactionId, UserId, CardId, }
+\NormalTok{                                             DateId, Amount, UseChip, Errors, }
+\NormalTok{                                             IsFraud) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{distinct}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(transactions\_fact)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  TransactionId          UserId        CardId              DateId     
+##  Min.   :       1   Min.   :   0   Length:24386900    Min.   :    1  
+##  1st Qu.: 6096726   1st Qu.: 510   Class :character   1st Qu.:10356  
+##  Median :12193450   Median :1006   Mode  :character   Median :20724  
+##  Mean   :12193450   Mean   :1001                      Mean   :20726  
+##  3rd Qu.:18290175   3rd Qu.:1477                      3rd Qu.:31093  
+##  Max.   :24386900   Max.   :1999                      Max.   :41461  
+##      Amount                       UseChip            Errors         
+##  Min.   : -500.00   Chip Transaction  : 6287598   Length:24386900   
+##  1st Qu.:    9.20   Online Transaction: 2713220   Class :character  
+##  Median :   30.14   Swipe Transaction :15386082   Mode  :character  
+##  Mean   :   43.63                                                   
+##  3rd Qu.:   65.06                                                   
+##  Max.   :12390.50                                                   
+##  IsFraud       
+##  No :24357143  
+##  Yes:   29757  
+##                
+##                
+##                
+## 
+\end{verbatim}
+
+\end{document}

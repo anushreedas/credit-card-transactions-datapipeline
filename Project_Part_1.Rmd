@@ -1,0 +1,333 @@
+---
+title: "ANA515 Project Part 1 - R Script"
+author: Anushree Das
+output:
+  pdf_document:
+    keep_tex: true
+---
+
+```{r, message=FALSE}
+#Load necessary libraries
+library(dplyr)
+library(lubridate)
+library(tidyverse)
+```
+
+# 1. EXTRACT
+```{r}
+# Load dataset from csv
+users_csv  <- read.csv("credit_card_transactions/sd254_users.csv")
+cards_csv <- read.csv("credit_card_transactions/sd254_cards.csv")
+transactions_csv <- read.csv("credit_card_transactions/credit_card_transactions-ibm_v2.csv")
+```
+
+# 2. TRANFORM
+## 2.1 Modify users table
+### 2.1.a Generate UserId column for users table
+### 2.1.b Rename column names
+```{r}
+users <- data.frame(UserId = 1:nrow(users_csv), 
+                        FullName = users_csv$Person, 
+                        CurrentAge = users_csv$Current.Age,
+                        RetirementAge = users_csv$Retirement.Age,
+                        BirthYear = users_csv$Birth.Year, 
+                        BirthMonth = users_csv$Birth.Month, 
+                        Gender= users_csv$Gender, 
+                        Address1 = users_csv$Address, 
+                        Address2 = users_csv$Apartment, 
+                        City = users_csv$City, 
+                        State = users_csv$State, 
+                        Zipcode = users_csv$Zipcode, 
+                        Latitude = users_csv$Latitude, 
+                        Longitude = users_csv$Longitude, 
+                        PerCapitaIncomeZipcode = users_csv$Per.Capita.Income...Zipcode, 
+                        YearlyIncome = users_csv$Yearly.Income...Person, 
+                        TotalDebt = users_csv$Total.Debt, 
+                        FICOScore = users_csv$FICO.Score, 
+                        NumCreditCards = users_csv$Num.Credit.Cards
+)
+
+head(users, 3)
+```
+
+### 2.1.c Convert Gender to categorical data type
+```{r}
+users$Gender <- factor(users$Gender)
+```
+
+### 2.1.d Convert columns - Address2, Zipcode to Text data type
+Zipcode and Address2 should be converted to Text data type because they are not used for quantitative statistics
+```{r}
+users$Address2 <- as.character(users$Address2)
+users$Zipcode <- as.character(users$Zipcode)
+```
+
+### 2.1.e Convert columns - PerCapitaIncomeZipcode, YearlyIncome, TotalDebt to numeric
+```{r}
+# Remove $ character from the column values and convert to numeric data type
+users$PerCapitaIncomeZipcode <- as.numeric(sub('.', '', users$PerCapitaIncomeZipcode))
+users$YearlyIncome <- as.numeric(sub('.', '', users$YearlyIncome))
+users$TotalDebt <- as.numeric(sub('.', '', users$TotalDebt))
+```
+
+
+## 2.2 Modify cards tables
+### 2.2.a Remove duplicates
+```{r}
+cards_csv <- cards_csv %>% distinct() 
+```
+
+### 2.2.b Combine user id and card index to generate CardId 
+### 2.2.c Rename column names
+```{r}
+cards <- data.frame(CardId = paste(cards_csv$User, cards_csv$CARD.INDEX, sep = "$"),
+                        CardBrand = cards_csv$Card.Brand,
+                        CardType = cards_csv$Card.Type,
+                        CardNumber = cards_csv$Card.Number,
+                        Expires = cards_csv$Expires,
+                        CVV = cards_csv$CVV, 
+                        HasChip = cards_csv$Has.Chip, 
+                        CardsIssued = cards_csv$Cards.Issued, 
+                        CreditLimit = cards_csv$Credit.Limit,
+                        AcctOpenDate = cards_csv$Acct.Open.Date,
+                        YearPINLastChanged = cards_csv$Year.PIN.last.Changed
+)
+head(cards, 3)
+```
+
+### 2.2.d Convert columns - CardBrand, CardType, HasChip to categorical data type
+```{r}
+cards$CardBrand <- factor(cards$CardBrand)
+cards$CardType <- factor(cards$CardType)
+cards$HasChip <- factor(cards$HasChip)
+```
+
+### 2.2.e Convert columns - Expires, AcctOpenDate to Date data type
+The Date Format for Expires and AcctOpenDate contains only Month and Year, but R needs a value for Day as well.
+The Expires date will be set to the last day of the month and AcctOpenDate to the first day of the month for this project.
+```{r}
+cards$Expires <- my(cards$Expires)
+cards$Expires <- ceiling_date(cards$Expires, "month") - days(1)
+
+cards$AcctOpenDate <- my(cards$AcctOpenDate)
+```
+
+### 2.2.f Convert columns - CardNumber, CVV to Text data type
+CardNumber and CVV not used for quantitative statistics, therefore they are being converted to Text 
+```{r}
+cards$CardNumber <- as.character(cards$CardNumber)
+cards$CVV <- as.character(cards$CVV)
+```
+
+### 2.2.g Convert column CreditLimit to numeric
+```{r}
+cards$CreditLimit <- as.numeric(sub('.', '', cards$CreditLimit))
+```
+
+## 2.3 Create table for merchants
+### 2.3.a Extract Merchant related column from the Transactions table
+```{r}
+merchants_temp <- data.frame(MerchantName = transactions_csv$Merchant.Name,
+                            MerchantCity = transactions_csv$Merchant.City,
+                            MerchantState = transactions_csv$Merchant.State,
+                            MerchantZIP = transactions_csv$Zip,
+                            MerchantCategoryCode = transactions_csv$MCC
+)
+```
+
+### 2.3.b Remove redundant data from the Merchants table
+```{r}
+nrow(merchants_temp)
+length(unique(merchants_temp$MerchantName))
+merchants_temp <- merchants_temp %>% distinct(MerchantName, .keep_all = TRUE)
+nrow(merchants_temp)
+```
+
+### 2.3.c Generate and add MerchantId column
+```{r}
+merchants <- data.frame(MerchantId = 1:nrow(merchants_temp),
+                            MerchantName = merchants_temp$MerchantName,
+                            MerchantCity = merchants_temp$MerchantCity,
+                            MerchantState = merchants_temp$MerchantState,
+                            MerchantZIP = merchants_temp$MerchantZIP,
+                            MerchantCategoryCode = merchants_temp$MerchantCategoryCode
+)
+
+head(merchants, 3)
+```
+
+### 2.3.d Convert columns - MerchantName, MerchantZIP to Text data type
+```{r}
+merchants$MerchantName <- as.character(merchants$MerchantName)
+merchants$MerchantZIP <- as.character(merchants$MerchantZIP)
+```
+
+### 2.3.e Convert column MerchantCategoryCode to Categorical data type
+```{r}
+merchants$MerchantCategoryCode = factor(merchants$MerchantCategoryCode)
+```
+
+
+## 2.4 Create table for date
+### 2.4.a Transform Time column to categorical (morning, afternoon, evening, night)
+```{r}
+# Convert column to Time data type
+transactions_csv$Time <- as.POSIXct(strptime(transactions_csv$Time,"%H:%M"),"UTC")
+
+# Define time range for each category
+x=as.POSIXct(strptime(c("050000","105959","110000","155959","160000",
+                        "185959"),"%H%M%S"),"UTC")
+
+# Transform Time column 
+transactions_csv$Time = case_when(
+  between(transactions_csv$Time,x[1],x[2]) ~"morning",
+  between(transactions_csv$Time,x[3],x[4]) ~"afternoon",
+  between(transactions_csv$Time,x[5],x[6]) ~"evening",
+  TRUE ~"night")
+
+head(transactions_csv$Time)
+```
+
+### 2.4.b Extract Date related column from the Transactions table
+```{r}
+date_temp <- data.frame(DateYear = transactions_csv$Year,
+                        DateMonth = transactions_csv$Month,
+                        DateDay = transactions_csv$Day,
+                        Time = transactions_csv$Time
+)
+```
+
+### 2.4.c Remove redundant data from the Date table
+```{r}
+date_temp <- date_temp %>% distinct() 
+```
+
+### 2.4.d Generate and add DateId column
+```{r}
+date <- data.frame(DateId = 1:nrow(date_temp),
+                        DateYear = date_temp$DateYear,
+                        DateMonth = date_temp$DateMonth,
+                        DateDay = date_temp$DateDay,
+                        Time = date_temp$Time
+)
+```
+
+### 2.4.e Convert column Time to Categorical data type
+```{r}
+date$Time = factor(date$Time)
+```
+
+
+## 2.5 Fact table - transactions
+### 2.4.a Replace existing merchant columns with single merchant id
+```{r, message=FALSE, warning = FALSE}
+# Uses Merchant Name (unique column in merchants table) 
+# to assign Merchant Id values in Transactions table
+transactions_csv$MerchantId <- transactions_csv$Merchant.Name
+conditions <- merchants$MerchantName
+replacement_values <- merchants$MerchantId
+transactions_csv$MerchantId <- replace(transactions_csv$MerchantId, 
+                                   transactions_csv$MerchantId %in% conditions, 
+                                   replacement_values)
+```
+
+### 2.4.b Replace existing date columns with single date id
+```{r, message=FALSE, warning = FALSE}
+# Combine all columns in Dates table
+temp_dates = data.frame(DateId = date$DateId,
+                        Condition = paste(date$DateYear,
+                                          date$DateMonth,
+                                          date$DateDay,
+                                          date$Time)
+)
+
+# Combine all columns that were added to Date table from Transaction table 
+transactions_csv$Condition <- paste(transactions_csv$Year,
+                                transactions_csv$Month,
+                                transactions_csv$Day,
+                                transactions_csv$Time)
+
+# Add DateId column with temporary values
+transactions_csv$DateId <- 1:nrow(transactions_csv)
+
+# Replace DateId based on the combined Date columns in both tables
+transactions_csv$DateId <- replace(transactions_csv$DateID, 
+                             transactions_csv$Condition %in% temp_dates$Condition, 
+                             temp_dates$DateId)
+```
+
+### 2.4.c Remove duplicates
+```{r}
+transactions_csv <- transactions_csv %>% distinct() 
+```
+
+### 2.4.d Combine user id and card index to generate CardId column 
+### 2.4.e Rename column names
+```{r}
+transactions <- data.frame(TransactionId = 1:nrow(transactions_csv),
+                              CardId = paste(transactions_csv$User, 
+                                             transactions_csv$Card, sep = "$"),
+                              UserId = transactions_csv$User,
+                              DateId = transactions_csv$DateId,
+                              MerchantId = transactions_csv$MerchantId,
+                              Amount = transactions_csv$Amount, 
+                              UseChip = transactions_csv$Use.Chip, 
+                              Errors = transactions_csv$Errors., 
+                              IsFraud = transactions_csv$Is.Fraud
+)
+
+head(transactions, 3)
+```
+
+### 2.4.f Covert columns - UseChip, IsFraud to categorical data type
+```{r}
+transactions$UseChip <- factor(transactions$UseChip)
+transactions$IsFraud <- factor(transactions$IsFraud)
+```
+
+### 2.2.g Convert column Amount to numeric
+```{r}
+transactions$Amount <- as.numeric(sub('.', '', transactions$Amount))
+```
+
+# 3. LOAD
+## Dimension table - users_dim
+```{r}
+users_dim <- users %>% select(UserId, FullName, CurrentAge, RetirementAge, 
+                              BirthYear, BirthMonth, Gender, Address1, Address2, 
+                              City, State, Zipcode, Latitude, Longitude, 
+                              PerCapitaIncomeZipcode, YearlyIncome, TotalDebt, 
+                              FICOScore, NumCreditCards) %>% distinct()
+summary(users_dim)
+```
+
+## Dimension table - cards_dim
+```{r}
+cards_dim <- cards %>% select(CardId, CardBrand, CardType, CardNumber, Expires, 
+                              CVV, HasChip, CardsIssued, CreditLimit, 
+                              AcctOpenDate, YearPINLastChanged) %>% distinct()
+summary(cards)
+```
+
+## Dimension table - cards_dim
+```{r}
+merchants_dim <- merchants %>% select(MerchantId, MerchantName, MerchantCity, 
+                                      MerchantState, MerchantZIP, 
+                                      MerchantCategoryCode) %>% distinct()
+summary(merchants_dim)
+```
+
+## Dimension table - date_dim
+```{r}
+date_dim <- date %>% select(DateId, DateYear, DateMonth, 
+                            DateDay, Time) %>% distinct()
+summary(date_dim)
+```
+
+## Fact table - transactions_fact
+```{r}
+transactions_fact <- transactions %>% select(TransactionId, UserId, CardId, 
+                                             DateId, Amount, UseChip, Errors, 
+                                             IsFraud) %>% distinct()
+summary(transactions_fact)
+```
