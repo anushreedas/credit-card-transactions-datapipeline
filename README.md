@@ -96,8 +96,8 @@ library(ggplot2)
 ├── README.md
 ├── ANA515_Project_Part1_Report.pdf   # Star schema design and initial ETL overview
 ├── ANA515_Project_Part2_Report.pdf   # Advanced modeling and data quality report
-├── ANA515_Project_Part1.R            # Part 1 R script
-└── ANA515_Project_Part2.R            # Part 2 R script
+├── ANA515_Project_Part1.Rmd          # Part 1 R script
+└── ANA515_Project_Part2.Rmd          # Part 2 R script
 ```
 
 > **Note:** The raw CSV files are not included in this repository due to file size. Download them directly from [Kaggle](https://www.kaggle.com/datasets/ealtman2019/credit-card-transactions/data) before running the scripts. The dataset used in this project is licensed under the Apache License 2.0.
