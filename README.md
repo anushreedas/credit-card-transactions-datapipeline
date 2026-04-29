@@ -23,6 +23,8 @@ Three raw CSV files are used as input:
 
 ## Schema Design
 
+![Star Schema](https://github.com/anushreedas/credit-card-transactions-datapipeline/blob/main/images/updated_star_schema.png)
+
 ### Fact Table
 - **Transactions** — `TransactionId`, `UserId`, `CardId`, `DateId`, `MerchantId`, `AmountCategory`
 
