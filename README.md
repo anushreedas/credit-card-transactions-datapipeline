@@ -106,5 +106,5 @@ library(ggplot2)
 
 ## Author
 
-**Anushree Das**  
-anushree.das@mcdaniel.edu
+**Anushree Das**
+[LinkedIn](https://linkedin.com/in/anushree-s-das) · [GitHub](https://github.com/anushreedas) · [Medium](https://medium.com/@anushreedas.2710)
